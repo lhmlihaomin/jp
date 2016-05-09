@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+    <head>
+        <title>Lessons</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+        <style>
+table {
+    border-collapse: collapse;
+}
+td,th {
+    border:1px solid black;
+}
+        </style>
+    </head>
+    <body>
+        
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">JP</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#">Lessons</a>
+                    </li>
+                    <li>
+                        <a href="#">Words</a>
+                    </li>
+                    <li>
+                        <a href="#">Sentences</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+        
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">FFF</div>
+                    <div class="panel-body">FJDKF</div>
+                </div>
+            </div>
+        </div>
+        
+        <table>
+            <caption>Lessons</caption>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Notes</th>
+                    <th>Tools</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lesson in lessons %}
+                <tr>
+                    <td>{{lesson.name}}</td>
+                    <td>{{lesson.note}}</td>
+                    <td>
+                        <button>Words</button>
+                        <button>Sentences</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <form method="POST" action="./add/" autocomplete="off">
+        {% csrf_token %}
+            <table>
+                <caption>Add a new Lesson</caption>
+                <tbody>
+                    <tr>
+                        <th>Name</th>
+                        <td>
+                            <input type="text" name="new_lesson_name" value="{{new_name}}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Notes</th>
+                        <td>
+                            <input type="text" name="new_lesson_note" value="" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" name="submit" value="Add" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>    
+    </div>
+    
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+        
+    </body>
+</html>
