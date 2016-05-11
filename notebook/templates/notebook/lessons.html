@@ -4,13 +4,10 @@
     <head>
         <title>Lessons</title>
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/sb-admin-2.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
         <style>
-table {
-    border-collapse: collapse;
-}
-td,th {
-    border:1px solid black;
-}
+
         </style>
     </head>
     <body>
@@ -48,66 +45,66 @@ td,th {
     </nav>
         
     <div class="container">
-        <div class="row">
-            <div class="col-lg-3">
-                <div class="panel panel-default">
-                    <div class="panel-heading">FFF</div>
-                    <div class="panel-body">FJDKF</div>
-                </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Lessons</div>
+            <div class="panel-body">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Notes</th>
+                            <th>Tools</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for lesson in lessons %}
+                        <tr>
+                            <td>
+                                <input type="checkbox" class="form-control" />
+                            </td>
+                            <td>{{lesson.name}}</td>
+                            <td>{{lesson.note}}</td>
+                            <td>
+                                <button class="btn btn-primary">Words</button>
+                                <button class="btn btn-primary">Sentences</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <form method="POST" action="./add/" autocomplete="off">
+                {% csrf_token %}
+                    <table class="table table-bordered table-striped">
+                        <caption>Add a new Lesson</caption>
+                        <tbody>
+                            <tr>
+                                <th>Name</th>
+                                <td>
+                                    <input type="text" name="new_lesson_name" value="{{new_name}}" class="form-control" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Notes</th>
+                                <td>
+                                    <input type="text" name="new_lesson_note" value="" class="form-control" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input class="btn btn-success" type="submit" name="submit" value="Add" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
             </div>
         </div>
-        
-        <table>
-            <caption>Lessons</caption>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Notes</th>
-                    <th>Tools</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for lesson in lessons %}
-                <tr>
-                    <td>{{lesson.name}}</td>
-                    <td>{{lesson.note}}</td>
-                    <td>
-                        <button>Words</button>
-                        <button>Sentences</button>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <form method="POST" action="./add/" autocomplete="off">
-        {% csrf_token %}
-            <table>
-                <caption>Add a new Lesson</caption>
-                <tbody>
-                    <tr>
-                        <th>Name</th>
-                        <td>
-                            <input type="text" name="new_lesson_name" value="{{new_name}}" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Notes</th>
-                        <td>
-                            <input type="text" name="new_lesson_note" value="" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <input type="submit" name="submit" value="Add" />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </form>    
     </div>
     
     <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/sb-admin-2.js' %}"></script>
         
     </body>
 </html>

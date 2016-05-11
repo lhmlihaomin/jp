@@ -23,15 +23,14 @@ def lessons(request):
             new_name = fmt%(m.groups()[0], new_order)
         else:
             new_name = "A01"
-    print(len(lessons))
+    
     return render(request, "notebook/lessons.html", locals())
     
 def lessons_add(request):
     """Add a lesson."""
     name = request.POST.get("new_lesson_name").strip()
     note = request.POST.get("new_lesson_note").strip()
-    print("Name: ", repr(name))
-    print("Note: ", repr(note))
+    
     p = "([a-zA-Z]+)(\d+)"
     m = re.match(p, name)
     if len(name) == 0 or m is None:
@@ -42,6 +41,9 @@ def lessons_add(request):
     )
     return HttpResponseRedirect(reverse("lessons"))
     
+def lessons_delete(request):
+    pass
+    
 def words(request, index):
     """Show a list of all words in a lesson"""
     lesson = Lesson.objects.get(pk=int(index))
@@ -49,14 +51,41 @@ def words(request, index):
     #words = Lesson.word_set.all()
     words = Word.objects.filter(lesson=lesson)
     
-    return HttpResponse([x.word for x in words])
+    #return HttpResponse([x.word for x in words])
+    return render(request, "notebook/words.html", locals())
+    
+def words_add(request):
+    pass
+    
+def words_delete(request):
+    pass
+    
+def word_mark(request):
+    pass
+    
+def word_highlight(request):
+    pass
+    
+def word_mastered(request):
+    pass
     
 def sentences(request, index):
     """Show a list of all sentences in a lesson"""
     lesson = Lesson.objects.get(pk=int(index))
     #sentences = lesson.sentence_set.all()
     sentences = Sentence.objects.filter(lesson=lesson)
-    return HttpResponse([x.sentence for x in sentences])
+    
+    #return HttpResponse([x.sentence for x in sentences])
+    return render(request, "notebook/sentences.html", locals())
+
+def sentence_mark(request):
+    pass
+    
+def sentence_highlight(request):
+    pass
+    
+def sentence_mastered(request):
+    pass
 
 def v1(request):
     Lesson.objects.all().delete()
