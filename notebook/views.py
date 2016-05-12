@@ -43,7 +43,10 @@ def lessons_add(request):
     return HttpResponseRedirect(reverse("lessons"))
     
 def lessons_delete(request):
-    pass
+    """Delete one or multiple lessons"""
+    lesson_ids = request.POST.getlist("lesson_id[]")
+    print(lesson_ids)
+    return HttpResponse("OK")
     
 def words(request, index):
     """Show a list of all words in a lesson"""

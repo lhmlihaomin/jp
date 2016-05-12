@@ -45,8 +45,10 @@
     </nav>
         
     <div class="container">
-        <div class="panel panel-default">
-            <div class="panel-heading">Lessons</div>
+        <div class="panel panel-info" style="margin-top: 10px;">
+            <div class="panel-heading">Lessons List</div>
+            <form method="post" action="./delete/">
+            {% csrf_token %}
             <div class="panel-body">
                 <table class="table table-striped table-bordered">
                     <thead>
@@ -61,7 +63,7 @@
                         {% for lesson in lessons %}
                         <tr>
                             <td>
-                                <input type="checkbox" class="form-control" />
+                                <input name="lesson_id[]" value="{{lesson.id}}" type="checkbox" class="form-control" />
                             </td>
                             <td>{{lesson.name}}</td>
                             <td>{{lesson.note}}</td>
@@ -73,6 +75,16 @@
                         {% endfor %}
                     </tbody>
                 </table>
+            </div>
+            <div class="panel-footer">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+            </form>
+        </div>
+        <div class="panel panel-green">
+            <div class="panel-heading">New Lesson</div>
+            <div class="panel-body">
+                </form>
                 <form method="POST" action="./add/" autocomplete="off">
                 {% csrf_token %}
                     <table class="table table-bordered table-striped">
