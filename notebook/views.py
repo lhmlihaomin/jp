@@ -1,3 +1,4 @@
+# coding=utf8
 import re
 
 from django.shortcuts import render
