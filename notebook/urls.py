@@ -3,6 +3,7 @@ from notebook import views
 
 urlpatterns = [
     url(r'v1/', views.v1, name='v1'),
+    url(r'v2/', views.v2, name='v2'),
     url(r'lessons/$', views.lessons, name="lessons"),
     url(r'lessons/add/', views.lessons_add, name="lessons_add"),
     url(r'lessons/delete/', views.lessons_delete, name="lessons_delete"),

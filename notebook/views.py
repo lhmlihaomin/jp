@@ -45,8 +45,11 @@ def lessons_add(request):
 def lessons_delete(request):
     """Delete one or multiple lessons"""
     lesson_ids = request.POST.getlist("lesson_id[]")
-    print(lesson_ids)
-    return HttpResponse("OK")
+    lessons = Lesson.objects.filter(pk__in=lesson_ids)
+    if len(lessons) > 0:
+        for i in range(len(lessons)):
+            lessons[i].delete()
+    return HttpResponseRedirect("../")
     
 def words(request, index):
     """Show a list of all words in a lesson"""
@@ -129,3 +132,6 @@ def v1(request):
     )
     
     return HttpResponse("OK")
+    
+def v2(request):
+    return render(request, "notebook/v2.html", locals())
