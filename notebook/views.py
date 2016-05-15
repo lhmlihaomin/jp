@@ -62,7 +62,26 @@ def words(request, index):
     return render(request, "notebook/words.html", locals())
     
 def words_add(request):
-    pass
+    lessons = Lesson.objects.all()
+    print(request.method)
+    if request.method.lower() == "post":
+        lesson = Lesson.objects.get(pk=request.POST.get('lesson'))
+        words = request.POST.getlist('word[]')
+        pronuns = request.POST.getlist('pronunciation[]')
+        notes = request.POST.getlist('note[]')
+        
+        for i, word in enumerate(words):
+            word = Word.objects.create(
+                word=words[i],
+                pronunciation=pronuns[i],
+                note=notes[i],
+                marked=False,
+                highlighted=False,
+                mastered=False,
+                lesson=lesson
+            )
+        
+    return render(request, "notebook/words_add.html", locals())
     
 def words_delete(request):
     pass
@@ -134,4 +153,24 @@ def v1(request):
     return HttpResponse("OK")
     
 def v2(request):
+    lessons = Lesson.objects.all()
+    print(request.method)
+    if request.method.lower() == "post":
+        lesson = Lesson.objects.get(pk=request.POST.get('lesson'))
+        words = request.POST.getlist('word[]')
+        pronuns = request.POST.getlist('pronunciation[]')
+        notes = request.POST.getlist('note[]')
+        
+        for i, word in enumerate(words):
+            word = Word.objects.create(
+                word=words[i],
+                pronunciation=pronuns[i],
+                note=notes[i],
+                marked=False,
+                highlighted=False,
+                mastered=False,
+                lesson=lesson
+            )
+        
     return render(request, "notebook/v2.html", locals())
+    
