@@ -63,7 +63,6 @@ def words(request, index):
     
 def words_add(request):
     lessons = Lesson.objects.all()
-    print(request.method)
     if request.method.lower() == "post":
         lesson = Lesson.objects.get(pk=request.POST.get('lesson'))
         words = request.POST.getlist('word[]')
@@ -71,6 +70,8 @@ def words_add(request):
         notes = request.POST.getlist('note[]')
         
         for i, word in enumerate(words):
+            if len(words[i].strip()) == 0:
+                continue
             word = Word.objects.create(
                 word=words[i],
                 pronunciation=pronuns[i],
@@ -87,13 +88,34 @@ def words_delete(request):
     pass
     
 def word_mark(request):
-    pass
+    word_id = request.GET.get('id')
+    try:
+        word = Word.objects.get(pk=word_id);
+        word.marked = not word.marked
+        word.save()
+    except Exception as ex:
+        return HttpResponse(ex.message, status=500)
+    return HttpResponse('"OK"')
     
 def word_highlight(request):
-    pass
+    word_id = request.GET.get('id')
+    try:
+        word = Word.objects.get(pk=word_id);
+        word.highlighted = not word.highlighted
+        word.save()
+    except Exception as ex:
+        return HttpResponse(ex.message, status=500)
+    return HttpResponse('"OK"')
     
 def word_mastered(request):
-    pass
+    word_id = request.GET.get('id')
+    try:
+        word = Word.objects.get(pk=word_id);
+        word.mastered = not word.mastered
+        word.save()
+    except Exception as ex:
+        return HttpResponse(ex.message, status=500)
+    return HttpResponse('"OK"')
     
 def sentences(request, index):
     """Show a list of all sentences in a lesson"""
@@ -105,14 +127,35 @@ def sentences(request, index):
     return render(request, "notebook/sentences.html", locals())
 
 def sentence_mark(request):
-    pass
+    sentence_id = request.GET.get('id')
+    try:
+        sentence = Sentence.objects.get(pk=sentence_id);
+        sentence.marked = not sentence.marked
+        sentence.save()
+    except Exception as ex:
+        return HttpResponse(ex.message, status=500)
+    return HttpResponse('"OK"')
     
 def sentence_highlight(request):
-    pass
+    sentence_id = request.GET.get('id')
+    try:
+        sentence = Sentence.objects.get(pk=sentence_id);
+        sentence.highlighted = not sentence.highlighted
+        sentence.save()
+    except Exception as ex:
+        return HttpResponse(ex.message, status=500)
+    return HttpResponse('"OK"')
     
 def sentence_mastered(request):
-    pass
-
+    sentence_id = request.GET.get('id')
+    try:
+        sentence = Sentence.objects.get(pk=sentence_id);
+        sentence.mastered = not sentence.mastered
+        sentence.save()
+    except Exception as ex:
+        return HttpResponse(ex.message, status=500)
+    return HttpResponse('"OK"')
+    
 def v1(request):
     Lesson.objects.all().delete()
     

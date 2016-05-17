@@ -45,31 +45,16 @@
     </nav>
         
     <div class="container">
-        <div class="panel panel-green" style="margin-top:10px;">
-            <div class="panel-heading">Words (Lesson: {{lesson.name}} - {{lesson.note}})</div>
+        <div class="panel panel-default" style="margin-top:10px;">
+            <div class="panel-heading">Sentences (Lesson: {{lesson.name}} - {{lesson.note}})</div>
             <div class="panel-body">
-                <div class="list-group">
-                {% for sentence in sentences %}
-                    <span title="{{sentence.translation}}" class="list-group-item">{{sentence.sentence}}
-                        <button class="btn btn-danger btn-outline btn-circle">
-                            <i class="fa fa-heart"></i>
-                        </button>
-                        <button class="btn btn-warning btn-outline btn-circle">
-                            <i class="fa fa-lightbulb-o"></i>
-                        </button>
-                        <button class="btn btn-success btn-outline btn-circle">
-                            <i class="fa fa-check"></i>
-                        </button>
-                    </span>
-                {% endfor %}
-                </div>
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
                             <th></th>
                             <th>Sentence</th>
-                            <th>Translation</th>
-                            <th></th>
+                            <!--<th>Translation</th>-->
+                            <th>Tools</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -78,16 +63,28 @@
                             <td>
                                 <input type="checkbox" />
                             </td>
-                            <td>{{sentence.sentence}}</td>
-                            <td>{{sentence.translation}}</td>
                             <td>
-                                <button class="btn btn-danger btn-outline btn-circle">
+                                <div id="sentence_{{sentence.id}}" onclick="$('#translation_{{sentence.id}}').toggle()">{{sentence.sentence}}</div>
+                                <div style="display:none" class="trans" id="translation_{{sentence.id}}">{{sentence.translation}}</div>
+                            </td>
+                            <!--<td>{{sentence.translation}}</td>-->
+                            <td>
+                                <button
+                                    data-id="{{sentence.id}}"
+                                    onclick="toggleMark(this)"
+                                    class="btn btn-circle{% if sentence.marked %} btn-danger{% endif %}">
                                     <i class="fa fa-heart"></i>
                                 </button>
-                                <button class="btn btn-warning btn-outline btn-circle">
+                                <button
+                                    data-id="{{sentence.id}}"
+                                    onclick="toggleHighlight(this)"
+                                    class="btn btn-circle{% if sentence.highlighted %} btn-warning{% endif %}">
                                     <i class="fa fa-lightbulb-o"></i>
                                 </button>
-                                <button class="btn btn-success btn-outline btn-circle">
+                                <button
+                                    data-id="{{sentence.id}}"
+                                    onclick="toggleMastered(this)"
+                                    class="btn btn-circle{% if sentence.mastered %} btn-success{% endif %}">
                                     <i class="fa fa-check"></i>
                                 </button>
                             </td>
@@ -103,5 +100,41 @@
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/sb-admin-2.js' %}"></script>
     
+<script>
+function sentence_ajax(element, action, classname) {
+    var word_id = $(element).attr('data-id');
+    $.ajax({
+        cache: false,
+        url: "./"+action+"/",
+        method: 'get',
+        data: {'id': word_id},
+        dataType: "json",
+        success: function() {
+            $(element).toggleClass(classname);
+        },
+        error: function() {
+            alert("Ajax failed.");
+        }
+    })
+}
+    
+function toggleMark(e) {
+    sentence_ajax(e, "mark", "btn-danger")
+}
+
+function toggleHighlight(e) {
+    sentence_ajax(e, "highlight", "btn-warning")
+}
+
+function toggleMastered(e) {
+    sentence_ajax(e, "mastered", "btn-success")
+}
+
+/*$(document).ready(
+    $('.word-mark').each(function(e) {
+        $(this).bind('click', toggleMark);
+    })
+)*/
+</script>
     </body>
 </html>

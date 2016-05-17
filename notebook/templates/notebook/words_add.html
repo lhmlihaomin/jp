@@ -2,7 +2,7 @@
 {% load staticfiles %}
 <html>
     <head>
-        <title>V2</title>
+        <title>Add Words</title>
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
         <link rel="stylesheet" href="{% static 'css/sb-admin-2.css' %}" />
         <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
@@ -13,7 +13,7 @@
     <body>
         
         <div class="panel panel-default" style="margin:10px;">
-            <div class="panel-heading">V2</div>
+            <div class="panel-heading">Add new words</div>
             <div class="panel-body">
                 <form method="post">
                     {% csrf_token %}
@@ -29,6 +29,7 @@
                             <th>Word</th>
                             <th>Pronunciation</th>
                             <th>Note</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody id="dstTbody">
@@ -36,6 +37,7 @@
                             <td><input id="word_1" name="word[]" class="form-control" /></td>
                             <td><input name="pronunciation[]" class="form-control" /></td>
                             <td><input class="note_input form-control" name="note[]" /></td>
+                            <td></td>
                         </tr>
                     </tbody>
                     <tfoot>
@@ -67,19 +69,40 @@ function tabHandler(e) {
         }
         numWords += 1;
         
-        $('.note_input').unbind('keydown');
-        
         var inputWord = $('<input name="word[]" class="form-control" id="word_'+numWords+'" />');
         var inputPronun = $('<input name="pronunciation[]" class="form-control" />');
-        var inputNote = $('<input name="note[]" class="note_input form-control" />').bind('keydown', tabHandler);
-        
+        var inputNote = $('<input name="note[]" class="note_input form-control" />');
+        var btnDelRow =$('<button></button>')
+                        .append('<i class="fa fa-times" />')
+                        .prop('id', "jfjfjf")
+                        .prop('type', "button")
+                        .addClass("btn btn-danger")
+                        .click(delRow)
         var tr = $("<tr></tr>")
                      .append($('<td></td>').append(inputWord))
                      .append($('<td></td>').append(inputPronun))
                      .append($('<td></td>').append(inputNote))
+                     .append($('<td></td>').append(btnDelRow))
                      .appendTo('#dstTbody');
         $("#word_"+numWords).focus()
+        
+        $('.note_input').unbind('keydown');
+        $('.note_input').last().bind('keydown', tabHandler);
     }
+}
+
+function delRow(e) {
+    var element = e.target;
+    while (element.tagName != 'TR' && element.tagName != 'BODY') {
+        element = element.parentNode;
+    }
+    console.log(element.tagName);
+    if (element.tagName == 'TR') {
+        $(element).remove();
+    }
+    
+    $('.note_input').unbind('keydown');
+    $('.note_input').last().bind('keydown', tabHandler);
 }
 
 $(".note_input").bind('keydown', tabHandler);
