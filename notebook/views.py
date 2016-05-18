@@ -10,6 +10,7 @@ from notebook.models import Lesson, Word, Sentence
 # Create your views here.
 def lessons(request):
     """Show a list of all lessons"""
+    title = "Lessons List"
     # get and sort all lessons:
     lessons = Lesson.objects.order_by("name")
     # increment the last lesson name by "1" as the new default name:
@@ -54,14 +55,15 @@ def lessons_delete(request):
 def words(request, index):
     """Show a list of all words in a lesson"""
     lesson = Lesson.objects.get(pk=int(index))
-    #words = Word.objects.get(lesson=lesson)
-    #words = Lesson.word_set.all()
+    title = "Words - "+lesson.name
     words = Word.objects.filter(lesson=lesson)
     
     #return HttpResponse([x.word for x in words])
     return render(request, "notebook/words.html", locals())
     
 def words_add(request):
+    """Add one or multiple words to a lesson."""
+    title = "Add Words"
     lessons = Lesson.objects.all()
     if request.method.lower() == "post":
         lesson = Lesson.objects.get(pk=request.POST.get('lesson'))
@@ -120,11 +122,34 @@ def word_mastered(request):
 def sentences(request, index):
     """Show a list of all sentences in a lesson"""
     lesson = Lesson.objects.get(pk=int(index))
-    #sentences = lesson.sentence_set.all()
+    title = "Sentences - "+lesson.name
     sentences = Sentence.objects.filter(lesson=lesson)
     
     #return HttpResponse([x.sentence for x in sentences])
     return render(request, "notebook/sentences.html", locals())
+
+def sentences_add(request):
+    """Add one or multiple sentences to a lesson."""
+    title = "Add Sentences"
+    lessons = Lesson.objects.all()
+    if request.method.lower() == "post":
+        lesson = Lesson.objects.get(pk=request.POST.get('lesson'))
+        sentences = request.POST.getlist('sentence[]')
+        translations = request.POST.getlist('translation[]')
+        
+        for i, sentence in enumerate(sentences):
+            if len(sentence[i].strip()) == 0:
+                continue
+            sentence = Sentence.objects.create(
+                sentence=sentences[i],
+                translation=translations[i],
+                marked=False,
+                highlighted=False,
+                mastered=False,
+                lesson=lesson
+            )
+        
+    return render(request, "notebook/sentences_add.html", locals())
 
 def sentence_mark(request):
     sentence_id = request.GET.get('id')

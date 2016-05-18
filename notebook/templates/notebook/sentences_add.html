@@ -1,11 +1,11 @@
 {% extends "notebook/layout.html" %}
 {% block content %}
         <div class="panel panel-default" style="margin:10px;">
-            <div class="panel-heading">Add new words</div>
+            <div class="panel-heading">Add new sentences</div>
             <div class="panel-body">
                 <form method="post">
                     {% csrf_token %}
-                    <span>Add words to: </span>
+                    <span>Add sentences to: </span>
                     <select name="lesson">
                         {% for lesson in lessons %}
                             <option value="{{lesson.id}}">{{lesson.name}} - {{lesson.note}}</option>
@@ -14,17 +14,15 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Word</th>
-                            <th>Pronunciation</th>
-                            <th>Note</th>
+                            <th>Sentence</th>
+                            <th>Translation</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody id="dstTbody">
                         <tr>
-                            <td><input id="word_1" name="word[]" class="form-control" /></td>
-                            <td><input name="pronunciation[]" class="form-control" /></td>
-                            <td><input class="note_input form-control" name="note[]" /></td>
+                            <td><input id="word_1" name="sentence[]" class="form-control" /></td>
+                            <td><input class="translation_input form-control" name="translation[]" /></td>
                             <td></td>
                         </tr>
                     </tbody>
@@ -42,7 +40,7 @@
 {% endblock %}
 {% block scripts %}
         <script>
-var numWords = 1;
+var numSentences = 1;
             
 function tabHandler(e) {
     console.log(e)
@@ -52,11 +50,10 @@ function tabHandler(e) {
         if (e.preventDefault) {
             e.preventDefault();
         }
-        numWords += 1;
+        numSentences += 1;
         
-        var inputWord = $('<input name="word[]" class="form-control" id="word_'+numWords+'" />');
-        var inputPronun = $('<input name="pronunciation[]" class="form-control" />');
-        var inputNote = $('<input name="note[]" class="note_input form-control" />');
+        var inputSentence = $('<input name="sentence[]" class="form-control" id="sentence_'+numSentences+'" />');
+        var inputTranslation = $('<input name="translation[]" class="translation_input form-control" />');
         var btnDelRow =$('<button></button>')
                         .append('<i class="fa fa-times" />')
                         .prop('id', "jfjfjf")
@@ -64,15 +61,14 @@ function tabHandler(e) {
                         .addClass("btn btn-danger")
                         .click(delRow)
         var tr = $("<tr></tr>")
-                     .append($('<td></td>').append(inputWord))
-                     .append($('<td></td>').append(inputPronun))
-                     .append($('<td></td>').append(inputNote))
+                     .append($('<td></td>').append(inputSentence))
+                     .append($('<td></td>').append(inputTranslation))
                      .append($('<td></td>').append(btnDelRow))
                      .appendTo('#dstTbody');
-        $("#word_"+numWords).focus()
+        $("#sentence_"+numSentences).focus()
         
-        $('.note_input').unbind('keydown');
-        $('.note_input').last().bind('keydown', tabHandler);
+        $('.translation_input').unbind('keydown');
+        $('.translation_input').last().bind('keydown', tabHandler);
     }
 }
 
@@ -86,10 +82,10 @@ function delRow(e) {
         $(element).remove();
     }
     
-    $('.note_input').unbind('keydown');
-    $('.note_input').last().bind('keydown', tabHandler);
+    $('.translation_input').unbind('keydown');
+    $('.translation_input').last().bind('keydown', tabHandler);
 }
 
-$(".note_input").bind('keydown', tabHandler);
+$(".translation_input").bind('keydown', tabHandler);
         </script>
 {% endblock %}

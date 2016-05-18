@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^lessons/[0-9]+/words/highlight/', views.word_highlight, name="word_highlight"),
     url(r'^lessons/[0-9]+/words/mastered/', views.word_mastered, name="word_mastered"),
     url(r'^lessons/([0-9]+)/sentences/$', views.sentences, name="sentences"),
+    url(r'^sentences_add/$', views.sentences_add, name="sentences_add"),
     url(r'^lessons/[0-9]+/sentences/mark/', views.sentence_mark, name="sentence_mark"),
     url(r'^lessons/[0-9]+/sentences/highlight/', views.sentence_highlight, name="sentence_highlight"),
     url(r'^lessons/[0-9]+/sentences/mastered/', views.sentence_mastered, name="sentence_mastered"),
