@@ -1,5 +1,6 @@
 # coding=utf8
 import re
+import json
 
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
@@ -97,7 +98,7 @@ def word_mark(request):
         word.save()
     except Exception as ex:
         return HttpResponse(ex.message, status=500)
-    return HttpResponse('"OK"')
+    return HttpResponse(json.dumps(word.marked))
     
 def word_highlight(request):
     word_id = request.GET.get('id')
@@ -107,7 +108,7 @@ def word_highlight(request):
         word.save()
     except Exception as ex:
         return HttpResponse(ex.message, status=500)
-    return HttpResponse('"OK"')
+    return HttpResponse(json.dumps(word.highlighted))
     
 def word_mastered(request):
     word_id = request.GET.get('id')
@@ -117,7 +118,7 @@ def word_mastered(request):
         word.save()
     except Exception as ex:
         return HttpResponse(ex.message, status=500)
-    return HttpResponse('"OK"')
+    return HttpResponse(json.dumps(word.mastered))
     
 def sentences(request, index):
     """Show a list of all sentences in a lesson"""
@@ -159,7 +160,7 @@ def sentence_mark(request):
         sentence.save()
     except Exception as ex:
         return HttpResponse(ex.message, status=500)
-    return HttpResponse('"OK"')
+    return HttpResponse(json.dumps(sentence.marked))
     
 def sentence_highlight(request):
     sentence_id = request.GET.get('id')
@@ -169,7 +170,7 @@ def sentence_highlight(request):
         sentence.save()
     except Exception as ex:
         return HttpResponse(ex.message, status=500)
-    return HttpResponse('"OK"')
+    return HttpResponse(json.dumps(sentence.highlighted))
     
 def sentence_mastered(request):
     sentence_id = request.GET.get('id')
@@ -179,7 +180,7 @@ def sentence_mastered(request):
         sentence.save()
     except Exception as ex:
         return HttpResponse(ex.message, status=500)
-    return HttpResponse('"OK"')
+    return HttpResponse(json.dumps(sentence.mastered))
     
 def v1(request):
     Lesson.objects.all().delete()
