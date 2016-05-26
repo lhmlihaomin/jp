@@ -182,6 +182,16 @@ def sentence_mastered(request):
         return HttpResponse(ex.message, status=500)
     return HttpResponse(json.dumps(sentence.mastered))
     
+def words_allmarked(request):
+    """List all marked words."""
+    words = Word.objects.filter(marked=True)
+    return render(request, "notebook/words_allmarked.html", locals())
+    
+def sentences_allmarked(request):
+    """List all marked sentences."""
+    sentences = Sentence.objects.filter(marked=True)
+    return render(request, "notebook/sentences_allmarked.html", locals())
+    
 def v1(request):
     Lesson.objects.all().delete()
     

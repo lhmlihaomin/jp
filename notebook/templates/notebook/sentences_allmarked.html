@@ -1,0 +1,28 @@
+{% extends "notebook/layout.html" %}
+{% block content %}
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">All Marked Sentences</div>
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Sentence</th>
+                            <th>Translation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sentence in sentences %}
+                        <tr>
+                            <td>{{sentence.sentence}}</td>
+                            <td>{{sentence.translation}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+{% endblock %}
